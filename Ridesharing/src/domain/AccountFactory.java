@@ -7,9 +7,9 @@ public class AccountFactory {
         }
         switch (accountType.toUpperCase()) {
             case "RENT":
-                return new RentalAccount();
+                return new RentalAccount(0, 0);
             case "OWNER":
-                return new OwnerAccount();
+                return new OwnerAccount(0, 0);
             default:
                 return null;
         }

@@ -1,19 +1,14 @@
 package domain.account;
 
 import domain.vehicle.Vehicle;
-import domain.vehicle.VehicleType;
-import domain.vehicle.VehiclesPool;
-
-import java.util.Arrays;
-import java.util.NoSuchElementException;
+import exceptions.InsufficientFunds;
 
 public class RentalAccount extends AbstractAccount{
-    public RentalAccount(int id, String name, double amount) {
+    public RentalAccount(String id, String name, double amount) {
         super(id, name, amount);
     }
 
-    public void addRentedVehicle(Vehicle vehicle)
-    {
+    public void addRentedVehicle(Vehicle vehicle) {
         vehicle.setAvailability(false, this);
         this.vehicleSet.add(vehicle);
     }
@@ -27,12 +22,16 @@ public class RentalAccount extends AbstractAccount{
     }
 
     @Override
-    public void changeBalance(double amount) {
+    public boolean changeBalance(double amount) {
+        if(this.balance < amount)
+        {
+            return false;
+        }
         this.balance -= amount;
-        // TODO: throw exception
+        return true;
     }
 
-    public void releaseVehicle(Vehicle vehicle) {
+    public void releaseVehicle(Vehicle vehicle){
         vehicle.releaseVehicle(this);
         this.vehicleSet.remove(vehicle);
     }
@@ -42,4 +41,5 @@ public class RentalAccount extends AbstractAccount{
         System.out.println("Vehicles rented by " + this.name);
         vehicleSet.stream().forEach(vehicle -> System.out.println(vehicle.toString()));
     }
+
 }

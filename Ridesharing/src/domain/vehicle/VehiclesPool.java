@@ -1,5 +1,10 @@
 package domain.vehicle;
 
+import domain.account.Account;
+import domain.account.RentalAccount;
+import exceptions.InsufficientFunds;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,10 +54,17 @@ public class VehiclesPool {
         return chosenVeh;
     }
 
-    public void addVehicle(Vehicle veh)
-    {
+    public void addVehicle(Vehicle veh) {
         veh.setAvailability(true, null);
         pool.add(veh);
+    }
+
+    public void removeVehicle(Vehicle vehicle, Account user)
+    {
+        if(vehicle.getAvailability() == true && vehicle.getOwner() == user)
+        {
+            pool.remove(vehicle);
+        }
     }
 
     public void printVehiclesPool()
@@ -60,6 +72,28 @@ public class VehiclesPool {
         System.out.println("Vehicles pool:");
         pool.stream().forEach(vehicle -> System.out.println(vehicle.toString()));
 
+    }
+
+    public ArrayList<Vehicle> getUserRentHistory(Account userAccount)
+    {
+        ArrayList<Vehicle> vehicles = new ArrayList<>();
+        if (userAccount instanceof RentalAccount)
+        {
+            pool.stream()
+                    .filter(vehicle -> vehicle.getVehicleHistory().containsValue(userAccount))
+                    .forEach(vehicle -> vehicles.add(vehicle));
+        }
+        return vehicles;
+    }
+
+    public int getVehiclesPoolSize()
+    {
+        return pool.size();
+    }
+
+    public void destroy()
+    {
+        INSTANCE = null;
     }
 
 }

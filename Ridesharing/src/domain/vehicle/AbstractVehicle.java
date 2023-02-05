@@ -1,17 +1,21 @@
 package domain.vehicle;
 
 import domain.account.Account;
+import exceptions.InsufficientFunds;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractVehicle implements Vehicle{
+
     protected Account owner;
+
     protected Account tempOwner;
     protected String name;
     protected Map<Timestamp, Account> history = new HashMap<>();
     protected double price;
+
     protected boolean isAvailable;
     protected int id;
 
@@ -25,7 +29,10 @@ public abstract class AbstractVehicle implements Vehicle{
     public void setOwner(Account owner) {
         this.owner = owner;
     }
-
+    @Override
+    public Account getOwner() {
+        return owner;
+    }
     public Map<Timestamp, Account> getVehicleHistory() {
         return history;
     }
@@ -34,8 +41,7 @@ public abstract class AbstractVehicle implements Vehicle{
         return price;
     }
 
-    public void setAvailability(Boolean availability, Account tempOwner)
-    {
+    public void setAvailability(Boolean availability, Account tempOwner){
         this.isAvailable = availability;
         this.tempOwner = tempOwner;
         if (!availability)
@@ -52,5 +58,14 @@ public abstract class AbstractVehicle implements Vehicle{
             setAvailability(true, null);
             history.put(new Timestamp(System.currentTimeMillis()), tempOwner);
         }
+    }
+
+    @Override
+    public Account getTempOwner() {
+        return tempOwner;
+    }
+
+    public boolean getAvailability() {
+        return isAvailable;
     }
 }

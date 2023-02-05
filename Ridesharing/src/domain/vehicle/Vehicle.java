@@ -1,6 +1,8 @@
 package domain.vehicle;
 
 import domain.account.Account;
+import domain.account.RentalAccount;
+import exceptions.InsufficientFunds;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,4 +20,10 @@ public interface Vehicle {
     String toString();
 
     void setOwner(Account owner);
+
+    Account getOwner();
+
+    Account getTempOwner();
+
+    boolean getAvailability();
 }

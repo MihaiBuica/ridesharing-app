@@ -4,14 +4,16 @@ import domain.vehicle.VehiclesPool;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
+import java.util.UUID;
 
 public abstract class AbstractAccount implements Account, Serializable, Cloneable{
-    protected Set<Vehicle> vehicleSet = new HashSet<>();
+    public Set<Vehicle> vehicleSet;
 
     private static final long serialVersionUID = -2272551373694344386L;
-    protected int id;
-    private int type;
+
+    protected String id;
 
     protected String name;
 
@@ -23,24 +25,27 @@ public abstract class AbstractAccount implements Account, Serializable, Cloneabl
 
     protected double balance;
 
-    public AbstractAccount(int id, String name, double amount) {
+    public AbstractAccount(String id, String name, double amount) {
         this.id = id;
         this.name = name;
         this.balance = amount;
         this.vehiclesPool = VehiclesPool.getInstance();
+        this.vehicleSet = new HashSet<>();
     }
 
-    public int getType() {
-        return type;
+    public void newVehicleSet()
+    {
+        this.vehicleSet = new HashSet<>();
+    }
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
 
     public void deposit(final double amount) {
         if (amount < 0) {
@@ -55,15 +60,20 @@ public abstract class AbstractAccount implements Account, Serializable, Cloneabl
         vehicleSet.stream().forEach(vehicle -> System.out.println(vehicle.toString()));
     }
 
+    public int getVehiclesSize()
+    {
+        return vehicleSet.size();
+    }
+
     @Override
-    public int getId() {
+    public String getId() {
         return id;
     }
 
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + id;
+        result = prime * result + id.hashCode();
         return result;
     }
 
@@ -82,7 +92,10 @@ public abstract class AbstractAccount implements Account, Serializable, Cloneabl
 
     public Object clone() throws CloneNotSupportedException
     {
-        return super.clone();
+        Object obj = super.clone();
+        AbstractAccount account = (AbstractAccount) obj;
+        account.newVehicleSet();
+        return account;
     }
 
     public void setBalance(double balance) {

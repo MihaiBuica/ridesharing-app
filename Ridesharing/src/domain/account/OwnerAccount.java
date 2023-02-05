@@ -3,15 +3,27 @@ package domain.account;
 import domain.vehicle.Vehicle;
 
 public class OwnerAccount extends AbstractAccount{
-    public OwnerAccount(int id, String name) {
+    public OwnerAccount(String id, String name) {
         super(id, name, 0);
     }
 
     public void addVehicle(Vehicle veh)
     {
-        veh.setOwner(this);
-        this.vehiclesPool.addVehicle(veh);
-        this.vehicleSet.add(veh);
+        if(veh.getOwner() == null)
+        {
+            veh.setOwner(this);
+            this.vehiclesPool.addVehicle(veh);
+            this.vehicleSet.add(veh);
+        }
+    }
+
+    public void removeVehicle(Vehicle veh)
+    {
+        if(veh.getOwner() == this)
+        {
+            vehicleSet.remove(veh);
+            vehiclesPool.removeVehicle(veh, this);
+        }
     }
 
     @Override
@@ -23,7 +35,8 @@ public class OwnerAccount extends AbstractAccount{
     }
 
     @Override
-    public void changeBalance(double amount) {
+    public boolean changeBalance(double amount) {
         this.balance += amount;
+        return true;
     }
 }

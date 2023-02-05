@@ -10,6 +10,8 @@ import domain.vehicle.Vehicle;
 import domain.vehicle.VehicleType;
 import exceptions.InsufficientFunds;
 import exceptions.NoVehicleFound;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -102,4 +104,5 @@ public class TestAccounts {
         user.setBalance(0);
         rentedVehicle = rideShareApp.getMatchingVehicle(VehicleType.CLASSIC, user);
     }
+
 }

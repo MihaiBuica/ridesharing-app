@@ -35,7 +35,6 @@ public class TestClient {
         vehicle1 = new ClassicVehicle(0,"Nissan", 10);
         vehicle2 = new ClassicVehicle(1,"Toyota", 12);
         vehicle3 = new GreenVehicle(2,"BMW", 12);
-
     }
 
     @Test

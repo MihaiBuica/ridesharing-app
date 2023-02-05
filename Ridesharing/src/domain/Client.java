@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 public class Client implements Serializable {
+
     private String name;
     private Gender gender;
     private String phoneNumber;
@@ -25,7 +26,9 @@ public class Client implements Serializable {
         this.phoneNumber = phoneNumber;
         this.city = city;
     }
-
+    public String getName() {
+        return name;
+    }
     public Account getRentalAccount() throws AccountTypeInvalid, CloneNotSupportedException {
         if (this.rentalAccount == null)
         {
@@ -58,4 +61,17 @@ public class Client implements Serializable {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", gender=" + gender +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", city='" + city + '\'' +
+                ", documents=" + documents +
+                ", balance=" + balance +
+                ", rentalAccount=" + rentalAccount +
+                ", ownerAccount=" + ownerAccount +
+                '}';
+    }
 }

@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public abstract class AbstractAccount implements Account, Serializable, Cloneable{
-    public Set<Vehicle> vehicleSet;
+    protected Set<Vehicle> vehicleSet;
 
     private static final long serialVersionUID = -2272551373694344386L;
 

@@ -96,4 +96,9 @@ public class VehiclesPool {
         INSTANCE = null;
     }
 
+    public void removeAllVehicles()
+    {
+        pool.stream().forEach(vehicle -> this.removeVehicle(vehicle, vehicle.getOwner()));
+    }
+
 }

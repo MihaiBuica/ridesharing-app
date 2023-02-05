@@ -1,4 +1,4 @@
-package domain;
+package domain.account;
 
 public interface Account {
     public int getId();

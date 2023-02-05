@@ -1,4 +1,8 @@
-package domain;
+package domain.account;
+
+import domain.account.AbstractAccount;
+import domain.account.OwnerAccount;
+import domain.account.RentalAccount;
 
 public class AccountFactory {
     public static AbstractAccount newAccount(String accountType, int id) {
@@ -7,9 +11,9 @@ public class AccountFactory {
         }
         switch (accountType.toUpperCase()) {
             case "RENT":
-                return new RentalAccount(0, 0);
+                return new RentalAccount(0, "", 0);
             case "OWNER":
-                return new OwnerAccount(0, 0);
+                return new OwnerAccount(0, "");
             default:
                 return null;
         }

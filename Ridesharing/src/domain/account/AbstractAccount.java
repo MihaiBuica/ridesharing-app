@@ -1,4 +1,7 @@
-package domain;
+package domain.account;
+import domain.vehicle.Vehicle;
+import domain.vehicle.VehiclesPool;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,8 +10,12 @@ public abstract class AbstractAccount implements Account, Serializable, Cloneabl
     protected Set<Vehicle> vehicleSet = new HashSet<>();
 
     private static final long serialVersionUID = -2272551373694344386L;
-    private int id;
+    protected int id;
     private int type;
+
+    protected String name;
+
+    protected VehiclesPool vehiclesPool;
 
     public double getBalance() {
         return balance;
@@ -16,13 +23,19 @@ public abstract class AbstractAccount implements Account, Serializable, Cloneabl
 
     protected double balance;
 
-    public AbstractAccount(int id, double amount) {
+    public AbstractAccount(int id, String name, double amount) {
         this.id = id;
+        this.name = name;
         this.balance = amount;
+        this.vehiclesPool = VehiclesPool.getInstance();
     }
 
     public int getType() {
         return type;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setType(int type) {
@@ -34,6 +47,12 @@ public abstract class AbstractAccount implements Account, Serializable, Cloneabl
             throw new IllegalArgumentException("Cannot deposit a negative amount");
         }
         this.balance += amount;
+    }
+
+    public void printVehicles()
+    {
+        System.out.println("Vehicles owned by " + this.name);
+        vehicleSet.stream().forEach(vehicle -> System.out.println(vehicle.toString()));
     }
 
     @Override

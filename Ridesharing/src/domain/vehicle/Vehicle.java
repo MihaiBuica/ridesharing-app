@@ -1,11 +1,7 @@
 package domain.vehicle;
 
 import domain.account.Account;
-import domain.account.RentalAccount;
-import exceptions.InsufficientFunds;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Map;
 
 public interface Vehicle {
@@ -15,7 +11,7 @@ public interface Vehicle {
 
     double getPrice();
 
-    Map<Timestamp, Account> getVehicleHistory();
+    Map<String, Account> getVehicleHistory();
 
     String toString();
 
@@ -26,4 +22,8 @@ public interface Vehicle {
     Account getTempOwner();
 
     boolean getAvailability();
+
+    public String getName();
+
+    public int getId();
 }

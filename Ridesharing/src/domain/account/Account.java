@@ -11,5 +11,6 @@ public interface Account {
     public void setVehiclesPool(VehiclesPool vehiclesPool);
     public double getBalance();
     public int getVehiclesSize();
+    public String getName();
 
 }

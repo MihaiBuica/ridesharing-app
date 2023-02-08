@@ -21,6 +21,7 @@ public class RideShareApp implements Serializable {
 
     private final Set<Client> clients = new HashSet<Client>();
 
+    private final ArrayList<VehicleRentListener> listenersRent = new ArrayList<VehicleRentListener>();
     private final ArrayList<ClientRegistrationListener> listeners = new ArrayList<ClientRegistrationListener>();
     private VehiclesPool vehiclesPool;
 
@@ -59,6 +60,29 @@ public class RideShareApp implements Serializable {
                     DateFormat.getDateInstance(DateFormat.FULL).format(new Date()));
 		});
 
+        listenersRent.add(vehicle -> {
+            System.out.println("Notification email for client " + vehicle.getOwner().getName()
+                    + ": Vehicle " + vehicle.getName() + "; ID " + vehicle.getId() + " rented");
+
+            if (emailService != null) {
+                try {
+                    System.out.println("EmailService detected");
+                    emailService.sendNotificationEmail(
+                            new Email()
+                                    .setFrom(system)
+                                    .setTo(system)
+                                    .setCopy(system)
+                                    .setTitle("Vehicle rent notification")
+                                    .setBody("Vehicle: " + vehicle.getName() + "; ID: " + vehicle.getId()
+                                            + "\nowned by: " + vehicle.getOwner().getId()
+                                            + "\nrented by: " + vehicle.getTempOwner().getId())
+                    );
+                } catch (EmailException e) {
+                    System.err.println(e.getMessage());
+                }
+            }
+        });
+
         emailService = new EmailService();
         vehiclesPool = new VehiclesPool();
     }
@@ -70,9 +94,10 @@ public class RideShareApp implements Serializable {
         try
         {
             Vehicle vehicleFound = Arrays.stream(availableVehicles)
-                    .filter(vehicle -> vehicle.getPrice() < account.getBalance())
+                    .filter(vehicle -> vehicle.getPrice() <= account.getBalance())
                     .findFirst().get();
             account.addRentedVehicle(vehicleFound);
+            notifyRent(vehicleFound);
             return vehicleFound;
         }
         catch (NoSuchElementException e)
@@ -97,15 +122,18 @@ public class RideShareApp implements Serializable {
         notify(client);
     }
     public static void main(String[] args){
-
         RideShareApp rideShareApp = new RideShareApp();
-        // TODO: service - AppReport unde sa afisam detalii despre aplicatie
-        // TODO: email pentru cand se face o tranzactie?
     }
 
     private void notify(Client client) {
         for (ClientRegistrationListener listener: listeners) {
             listener.onClientAdded(client);
+        }
+    }
+
+    private void notifyRent(Vehicle vehicle) {
+        for (VehicleRentListener listener: listenersRent) {
+            listener.onVehicleRent(vehicle);
         }
     }
 

@@ -1,10 +1,9 @@
 package domain.vehicle;
 
-import domain.account.AbstractAccount;
 import domain.account.Account;
-import exceptions.InsufficientFunds;
 
-import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,11 +12,13 @@ public abstract class AbstractVehicle implements Vehicle{
     protected Account owner;
 
     protected Account tempOwner;
+
     protected String name;
-    protected Map<Timestamp, Account> history = new HashMap<>();
+    protected Map<String, Account> history = new HashMap<>();
     protected double price;
 
     protected boolean isAvailable;
+
     protected int id;
 
     public AbstractVehicle(int id, String name, double price)
@@ -34,7 +35,7 @@ public abstract class AbstractVehicle implements Vehicle{
     public Account getOwner() {
         return owner;
     }
-    public Map<Timestamp, Account> getVehicleHistory() {
+    public Map<String, Account> getVehicleHistory() {
         return history;
     }
 
@@ -57,7 +58,8 @@ public abstract class AbstractVehicle implements Vehicle{
         if (this.tempOwner.equals(tempOwner))
         {
             setAvailability(true, null);
-            history.put(new Timestamp(System.currentTimeMillis()), tempOwner);
+            history.put(DateFormat.getDateInstance(DateFormat.FULL).format(new Date()),
+                    tempOwner);
         }
     }
 
@@ -81,5 +83,13 @@ public abstract class AbstractVehicle implements Vehicle{
         if (id != other.id)
             return false;
         return true;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getId() {
+        return id;
     }
 }

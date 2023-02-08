@@ -106,4 +106,7 @@ public abstract class AbstractAccount implements Account, Serializable, Cloneabl
     {
         this.vehiclesPool = vehiclesPool;
     }
+    public String getName() {
+        return name;
+    }
 }

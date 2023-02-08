@@ -1,5 +1,6 @@
 package domain.vehicle;
 
+import domain.account.AbstractAccount;
 import domain.account.Account;
 import exceptions.InsufficientFunds;
 
@@ -67,5 +68,18 @@ public abstract class AbstractVehicle implements Vehicle{
 
     public boolean getAvailability() {
         return isAvailable;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        AbstractVehicle other = (AbstractVehicle) obj;
+        if (id != other.id)
+            return false;
+        return true;
     }
 }

@@ -29,7 +29,7 @@ public abstract class AbstractAccount implements Account, Serializable, Cloneabl
         this.id = id;
         this.name = name;
         this.balance = amount;
-        this.vehiclesPool = VehiclesPool.getInstance();
+        this.vehiclesPool = null;
         this.vehicleSet = new HashSet<>();
     }
 
@@ -102,4 +102,8 @@ public abstract class AbstractAccount implements Account, Serializable, Cloneabl
         this.balance = balance;
     }
 
+    public void setVehiclesPool(VehiclesPool vehiclesPool)
+    {
+        this.vehiclesPool = vehiclesPool;
+    }
 }

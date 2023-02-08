@@ -9,7 +9,9 @@ import domain.vehicle.ClassicVehicle;
 import domain.vehicle.GreenVehicle;
 import domain.vehicle.Vehicle;
 import domain.vehicle.VehicleType;
+import exceptions.AccountNotRegisteredException;
 import exceptions.AccountTypeInvalid;
+import exceptions.ClientExistsException;
 import exceptions.NoVehicleFound;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,12 +24,15 @@ public class TestClient {
     Client client1, client2;
     Vehicle vehicle1, vehicle2, vehicle3;
     @Before
-    public void initialize() throws AccountTypeInvalid, CloneNotSupportedException {
+    public void initialize() throws AccountTypeInvalid, CloneNotSupportedException, ClientExistsException {
         rideShareApp = new RideShareApp();
 
         client1 = new Client("User1", Gender.MALE, "", "Bucharest");
         client1.setBalance(100);
         client2 = new Client("User2", Gender.MALE, "", "Bucharest");
+
+        rideShareApp.addClient(client1);
+        rideShareApp.addClient(client2);
 
         OwnerAccount ownerAccountClient1 = (OwnerAccount) client1.getOwnerAccount();
         OwnerAccount ownerAccountClient2 = (OwnerAccount) client2.getOwnerAccount();
@@ -39,7 +44,6 @@ public class TestClient {
 
     @Test
     public void testClientAccountGeneration() throws AccountTypeInvalid, CloneNotSupportedException {
-        Client client1 = new Client("User1", Gender.MALE, "", "Bucharest");
         Account ownerAccount = client1.getOwnerAccount();
         assertTrue(ownerAccount instanceof OwnerAccount);
         assertFalse(ownerAccount instanceof RentalAccount);
@@ -49,7 +53,7 @@ public class TestClient {
     }
 
     @Test
-    public void testClientOwnerAccounts() throws AccountTypeInvalid, CloneNotSupportedException {
+    public void testClientOwnerAccounts() throws AccountTypeInvalid, CloneNotSupportedException, AccountNotRegisteredException {
 
         OwnerAccount ownerAccountClient1 = (OwnerAccount) client1.getOwnerAccount();
         OwnerAccount ownerAccountClient2 = (OwnerAccount) client2.getOwnerAccount();
@@ -72,7 +76,7 @@ public class TestClient {
     }
 
     @Test
-    public void testClientRentalAccounts() throws AccountTypeInvalid, CloneNotSupportedException, NoVehicleFound {
+    public void testClientRentalAccounts() throws AccountTypeInvalid, CloneNotSupportedException, NoVehicleFound, AccountNotRegisteredException {
 
         OwnerAccount ownerAccountClient1 = (OwnerAccount) client1.getOwnerAccount();
         RentalAccount rentAccountClient1 = (RentalAccount) client1.getRentalAccount();

@@ -6,6 +6,7 @@ import domain.vehicle.*;
 import email.Email;
 import email.EmailException;
 import email.EmailService;
+import exceptions.AccountTypeInvalid;
 import exceptions.ClientExistsException;
 import exceptions.InsufficientFunds;
 import exceptions.NoVehicleFound;
@@ -20,7 +21,7 @@ public class RideShareApp implements Serializable {
     private final Set<Client> clients = new HashSet<Client>();
 
     private final ArrayList<ClientRegistrationListener> listeners = new ArrayList<ClientRegistrationListener>();
-    private VehiclesPool vehiclesPool = VehiclesPool.getInstance();
+    private VehiclesPool vehiclesPool;
 
     private EmailService emailService;
 
@@ -58,6 +59,7 @@ public class RideShareApp implements Serializable {
 		});
 
         emailService = new EmailService();
+        vehiclesPool = new VehiclesPool();
     }
     public Vehicle getMatchingVehicle(VehicleType type, RentalAccount account) throws NoVehicleFound {
         Vehicle[] availableVehicles = vehiclesPool.getVehicles(type);
@@ -80,18 +82,22 @@ public class RideShareApp implements Serializable {
         return emailService;
     }
 
-    public void addClient(final Client client) throws ClientExistsException {
+    public void addClient(final Client client) throws ClientExistsException, AccountTypeInvalid, CloneNotSupportedException {
         if (clients.contains(client)) {
             throw new ClientExistsException("Client already exists into the app");
         }
 
         clients.add(client);
+        registerAccount(client.getOwnerAccount());
+        registerAccount(client.getRentalAccount());
         notify(client);
     }
     public static void main(String[] args){
 
         RideShareApp rideShareApp = new RideShareApp();
-
+        // TODO: Teste unitare sa fie atomice
+        // TODO: service - AppReport unde sa afisam detalii despre aplicatie
+        // TODO: email pentru cand se face o tranzactie?
     }
 
     private void notify(Client client) {
@@ -104,7 +110,9 @@ public class RideShareApp implements Serializable {
         return vehiclesPool;
     }
 
-    public void destroyVehiclesPool() {
-        this.vehiclesPool.destroy();
+    public void registerAccount(Account account)
+    {
+        account.setVehiclesPool(this.vehiclesPool);
     }
+
 }

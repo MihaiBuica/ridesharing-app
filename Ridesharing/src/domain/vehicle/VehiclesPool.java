@@ -2,7 +2,6 @@ package domain.vehicle;
 
 import domain.account.Account;
 import domain.account.RentalAccount;
-import exceptions.InsufficientFunds;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,23 +9,11 @@ import java.util.Set;
 
 public class VehiclesPool {
 
-    private static VehiclesPool INSTANCE;
+    private Set<Vehicle> pool;
 
-    Set<Vehicle> pool;
-
-    private VehiclesPool()
+    public VehiclesPool()
     {
         pool = new HashSet<>();
-    }
-
-    static public VehiclesPool getInstance()
-    {
-        if (INSTANCE == null)
-        {
-            INSTANCE = new VehiclesPool();
-        }
-
-        return INSTANCE;
     }
 
     public Vehicle[] getVehicles(VehicleType type)
@@ -91,10 +78,6 @@ public class VehiclesPool {
         return pool.size();
     }
 
-    public void destroy()
-    {
-        INSTANCE = null;
-    }
 
     public void removeAllVehicles()
     {

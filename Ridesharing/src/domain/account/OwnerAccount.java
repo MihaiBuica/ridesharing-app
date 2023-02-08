@@ -1,14 +1,18 @@
 package domain.account;
 
 import domain.vehicle.Vehicle;
+import exceptions.AccountNotRegisteredException;
 
 public class OwnerAccount extends AbstractAccount{
     public OwnerAccount(String id, String name) {
         super(id, name, 0);
     }
 
-    public void addVehicle(Vehicle veh)
-    {
+    public void addVehicle(Vehicle veh) throws AccountNotRegisteredException {
+        if(vehiclesPool == null)
+        {
+            throw new AccountNotRegisteredException("Owner account not registered");
+        }
         if(veh.getOwner() == null)
         {
             veh.setOwner(this);

@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.*;
 
-public class TestRenting {
+public class TestRent {
 
 
     @Test

@@ -84,4 +84,8 @@ public class VehiclesPool {
         pool.stream().forEach(vehicle -> this.removeVehicle(vehicle, vehicle.getOwner()));
     }
 
+    public Set<Vehicle> getPool() {
+        return pool;
+    }
+
 }

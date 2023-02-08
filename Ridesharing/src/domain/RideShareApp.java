@@ -18,6 +18,7 @@ import java.util.*;
 
 public class RideShareApp implements Serializable {
     private static final long serialVersionUID = -4157871135257285214L;
+
     private final Set<Client> clients = new HashSet<Client>();
 
     private final ArrayList<ClientRegistrationListener> listeners = new ArrayList<ClientRegistrationListener>();
@@ -61,6 +62,9 @@ public class RideShareApp implements Serializable {
         emailService = new EmailService();
         vehiclesPool = new VehiclesPool();
     }
+    public Set<Client> getClients() {
+        return clients;
+    }
     public Vehicle getMatchingVehicle(VehicleType type, RentalAccount account) throws NoVehicleFound {
         Vehicle[] availableVehicles = vehiclesPool.getVehicles(type);
         try
@@ -95,7 +99,6 @@ public class RideShareApp implements Serializable {
     public static void main(String[] args){
 
         RideShareApp rideShareApp = new RideShareApp();
-        // TODO: Teste unitare sa fie atomice
         // TODO: service - AppReport unde sa afisam detalii despre aplicatie
         // TODO: email pentru cand se face o tranzactie?
     }

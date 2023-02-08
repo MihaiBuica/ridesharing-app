@@ -8,7 +8,8 @@ public interface Account {
     public void setName(String name);
     public void setId(String id);
     public void setBalance(double balance);
-
     public void setVehiclesPool(VehiclesPool vehiclesPool);
+    public double getBalance();
+    public int getVehiclesSize();
 
 }

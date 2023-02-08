@@ -50,6 +50,12 @@ public class Client implements Serializable {
         }
         return this.ownerAccount;
     }
+    public Account inspectOwnerAccount() {
+        return this.ownerAccount;
+    }
+    public Account inspectRentalAccount() {
+        return this.rentalAccount;
+    }
     public void setBalance(double balance) {
         this.balance = balance;
     }
